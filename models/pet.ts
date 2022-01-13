@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import mongoose from 'mongoose'
 
 const feedbackSchema = new mongoose.Schema({
@@ -7,7 +6,8 @@ const feedbackSchema = new mongoose.Schema({
   childFriendly: { type: Number, min: 1, max: 5 },
   dogFriendly: { type: Number, min: 1, max: 5 },
   playful: { type: Number, min: 1, max: 5 },
-  sensitive: { type: Number, min: 1, max: 5 }
+  sensitive: { type: Number, min: 1, max: 5 },
+  petDate: { type: mongoose.Schema.Types.ObjectId, ref: 'petDate' }
 }, {
   timestamps: true
 })
@@ -70,5 +70,4 @@ petSchema.virtual('averageSensitive')
 
 petSchema.set('toJSON', { virtuals: true })
 
-// save our schema to a model
 export default mongoose.model('Pet', petSchema)

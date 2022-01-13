@@ -1,6 +1,8 @@
 import express from 'express'
 import { loginUser, registerUser } from '../controllers/auth'
-import { addFeedback, createPet, deleteFeedback, deletePet, editFeedback, editPet, getAllPets, getSinglePet } from '../controllers/pets'
+import { createPetDate, deletePetDate, editPetDate, getSinglePetDate } from '../controllers/petDates'
+import { addFeedback, createPet, deleteFeedback, deletePet, editPet, getAllPets, getSinglePet } from '../controllers/pets'
+import { createRequest, deleteRequest, editRequest, getSingleRequest } from '../controllers/requests'
 import { addReview, deleteReview, editProfile, editReview, getProfile, getUserProfile } from '../controllers/users'
 import { secureRoute } from './secureRoute'
 
@@ -20,15 +22,14 @@ router.route('/pet/:id')
 router.route('/pet/:id/feedback')
   .post(secureRoute, addFeedback) // Tested
 
-router.route('/pet/:id/feedback/:id')
-  .put(secureRoute, editFeedback)
-  .delete(secureRoute, deleteFeedback)
+router.route('/pet/:id/feedback/:feedbackId')
+  .delete(secureRoute, deleteFeedback) // Tested
 
 router.route('/register') 
   .post(registerUser) // Tested
 
 router.route('/login')
-  .post(loginUser)
+  .post(loginUser) // Tested
 
 router.route('/profile')
   .get(secureRoute, getProfile)
@@ -46,6 +47,22 @@ router.route('/profile/:id/review')
 router.route('/profile/:id/review/:id')
   .put(secureRoute, editReview)
   .delete(secureRoute, deleteReview)
+
+router.route('/request')
+  .post(secureRoute, createRequest)
+
+router.route('/request/:id')
+  .get(secureRoute, getSingleRequest)
+  .put(secureRoute, editRequest)
+  .delete(secureRoute, deleteRequest)
+
+router.route('/petDate')
+  .post(secureRoute, createPetDate)
+
+router.route('/petDate/:id')
+.get(secureRoute, getSinglePetDate)
+.put(secureRoute, editPetDate)
+.delete(secureRoute, deletePetDate)
 
 
 

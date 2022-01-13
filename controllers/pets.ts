@@ -1,6 +1,6 @@
 import Pet from '../models/pet'
 
-// Get /pets
+// GET /pets
 export const getAllPets = async (_req: any, res: any) => {
   const pets = await Pet.find() // Get all pets in database
   console.log(pets)
@@ -13,10 +13,10 @@ export const createPet = async (req: any, res: any) => {
   try {
     const petToAdd = await Pet.create(req.body)
     res.status(201).json(petToAdd)
-  } catch (err) {
+  } catch (error) {
     console.log('🆘 Did not add pet')
-    console.log(err)
-    return res.status(422).json(err)
+    console.log(error)
+    return res.status(422).json(error)
   }
 }
 
@@ -28,10 +28,10 @@ export const getSinglePet = async (req: { params: { id: string } }, res: any) =>
     const petToDisplay = await Pet.findById(id)
     console.log(petToDisplay)
     return res.status(200).json(petToDisplay)
-  } catch (err) {
+  } catch (error) {
     console.log('🆘 Error finding pet') 
-    console.log(err)
-    return res.status(404).json({ message: 'Pet not found', errors: err })
+    console.log(error)
+    return res.status(404).json({ message: 'Pet not found', errors: error })
   }
 }
 
@@ -44,7 +44,7 @@ export const editPet = async (req: { params: { id: string }, body: any }, res: a
     await petToEdit.updateOne(req.body)
     return res.status(202).json(petToEdit)
   } catch (error) {
-    console.log('Pet not edited')
+    console.log('🆘 Pet not edited')
     console.log(error)
     return res.status(404).json(error)
   }
@@ -59,7 +59,7 @@ export const deletePet = async (req: { params: { id: any } }, res: any) => {
     await petToDelete.deleteOne()
     return res.sendStatus(204)
   } catch (error) {
-    console.log('Pet not found')
+    console.log('🆘 Pet not found')
     console.log(error)
     return res.status(404).json(error)
   }
@@ -73,26 +73,7 @@ export const addFeedback = async (req: { params: { id: string }; body: any; curr
     if (!pet) throw new Error()
     const newFeedback = { ...req.body, owner: req.currentUser._id }
     pet.feedbacks.push(newFeedback)
-    await pet.save()
     return res.status(200).json(pet)
-  } catch (error) {
-    console.log(error)
-    return res.status(404).json(error)
-  }
-}
-
-// PUT /pet/:id/feedback/:id
-export const editFeedback = async (req: { params: { id: string; feedbackId: string }; currentUser: { _id: string }; body: any }, res: any) => {
-  const { id, feedbackId } = req.params
-  try {
-    const pet = await Pet.findById(id)
-    if (!pet) throw new Error()
-    const feedbackToEdit = pet.feedbacks.id(feedbackId)
-    if (!feedbackToEdit) throw new Error('Feedback not found')
-    if (!feedbackToEdit.owner.equals(req.currentUser._id) && (!pet.owner.equals(req.currentUser._id))) throw new Error('Unauthorised')
-    await feedbackToEdit.updateOne(req.body)
-    await pet.save()
-    return res.status(202).json(pet)
   } catch (error) {
     console.log(error)
     return res.status(404).json(error)
@@ -108,7 +89,7 @@ export const deleteFeedback = async (req: { params: { id: string; feedbackId: st
     const feedbackToDelete = pet.feedbacks.id(feedbackId)
     if (!feedbackToDelete) throw new Error('Feedback not found')
     if (!feedbackToDelete.owner.equals(req.currentUser._id) && (!pet.owner.equals(req.currentUser._id))) throw new Error('Unauthorised')
-    await feedbackToDelete.deleteOne()
+    await feedbackToDelete.remove()
     await pet.save()
     return res.status(202).json(pet)
   } catch (error) {
