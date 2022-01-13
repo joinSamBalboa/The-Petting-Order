@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import mongoose from 'mongoose'
-import { ForOfStatement } from 'typescript'
 
-// Schema
 const feedbackSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   responsive: { type: Number, min: 1, max: 5 },
@@ -28,8 +26,8 @@ const petSchema = new mongoose.Schema({
 petSchema.virtual('averageResponsive')
   .get(function (this: any) {
     if (!this.feedbacks.length) return 'Not yet rated'
-    const sum = this.responsive.reduce((acc: number, feedback: any) => {
-      return acc + feedback.rating
+    const sum = this.feedbacks.reduce((acc: number, feedback: any) => {
+      return acc + feedback.responsive
     }, 0)
     return Number(sum / this.feedbacks.length).toFixed(2)
   })
@@ -37,8 +35,8 @@ petSchema.virtual('averageResponsive')
 petSchema.virtual('averageChildFriendly')
   .get(function (this: any) {
     if (!this.feedbacks.length) return 'Not yet rated'
-    const sum = this.childFriendly.reduce((acc: number, feedback: any) => {
-      return acc + feedback.rating
+    const sum = this.feedbacks.reduce((acc: number, feedback: any) => {
+      return acc + feedback.childFriendly
     }, 0)
     return Number(sum / this.feedbacks.length).toFixed(2)
   })
@@ -46,8 +44,8 @@ petSchema.virtual('averageChildFriendly')
 petSchema.virtual('averageDogFriendly')
   .get(function (this: any) {
     if (!this.feedbacks.length) return 'Not yet rated'
-    const sum = this.dogFriendly.reduce((acc: number, feedback: any) => {
-      return acc + feedback.rating
+    const sum = this.feedbacks.reduce((acc: number, feedback: any) => {
+      return acc + feedback.dogFriendly
     }, 0)
     return Number(sum / this.feedbacks.length).toFixed(2)
   })
@@ -55,8 +53,8 @@ petSchema.virtual('averageDogFriendly')
 petSchema.virtual('averagePlayful')
   .get(function (this: any) {
     if (!this.feedbacks.length) return 'Not yet rated'
-    const sum = this.playful.reduce((acc: number, feedback: any) => {
-      return acc + feedback.rating
+    const sum = this.feedbacks.reduce((acc: number, feedback: any) => {
+      return acc + feedback.playful
     }, 0)
     return Number(sum / this.feedbacks.length).toFixed(2)
   })
@@ -64,8 +62,8 @@ petSchema.virtual('averagePlayful')
 petSchema.virtual('averageSensitive')
   .get(function (this: any) {
     if (!this.feedbacks.length) return 'Not yet rated'
-    const sum = this.sensitive.reduce((acc: number, feedback: any) => {
-      return acc + feedback.rating
+    const sum = this.feedbacks.reduce((acc: number, feedback: any) => {
+      return acc + feedback.sensitive
     }, 0)
     return Number(sum / this.feedbacks.length).toFixed(2)
   })

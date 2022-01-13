@@ -4,16 +4,12 @@ import mongoose from 'mongoose'
 import router from './config/router'
 import 'dotenv/config'
 
-const PORT = 4000
-const dbURI = 'mongodb://localhost/petting-order-api'
-
 // Node setup
 const app = express()
 
-
 const startServer = async () => {
   try {
-    await mongoose.connect(dbURI)
+    await mongoose.connect(process.env.dbURI!)
     console.log('😻 Database has connected successfully')
 
     // Middleware
@@ -34,8 +30,8 @@ const startServer = async () => {
     })
 
     // Listen
-    const server = app.listen(PORT, () => {
-      console.log(`😸 Server up and running on port ${PORT}`)
+    const server = app.listen(process.env.PORT, () => {
+      console.log(`😸 Server up and running on port ${process.env.PORT}`)
     })
     // 30 second timeout
     server.timeout = 30000
