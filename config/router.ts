@@ -3,7 +3,7 @@ import { loginUser, registerUser } from '../controllers/auth'
 import { createPetDate, deletePetDate, editPetDate, getSinglePetDate } from '../controllers/petDates'
 import { addFeedback, createPet, deleteFeedback, deletePet, editPet, getAllPets, getSinglePet } from '../controllers/pets'
 import { createRequest, deleteRequest, editRequest, getSingleRequest } from '../controllers/requests'
-import { addReview, deleteReview, editProfile, editReview, getProfile, getUserProfile } from '../controllers/users'
+import { addReview, deleteProfile, deleteReview, editProfile, getProfile, getUserProfile } from '../controllers/users'
 import { secureRoute } from './secureRoute'
 
 const router = express.Router()
@@ -32,37 +32,34 @@ router.route('/login')
   .post(loginUser) // Tested
 
 router.route('/profile')
-  .get(secureRoute, getProfile)
-  .delete(secureRoute, editProfile)
-
-router.route('/profile/edit')
-  .put(secureRoute, editProfile)
-
+  .get(secureRoute, getProfile) // Tested
+  .delete(secureRoute, deleteProfile) // Tested
+  .put(secureRoute, editProfile) // Tested
+  
 router.route('/profile/:id')
-  .get(secureRoute, getUserProfile)
+  .get(secureRoute, getUserProfile) // Tested
 
 router.route('/profile/:id/review')
-  .post(secureRoute, addReview)
+  .post(secureRoute, addReview) // Tested
 
-router.route('/profile/:id/review/:id')
-  .put(secureRoute, editReview)
-  .delete(secureRoute, deleteReview)
+router.route('/profile/:id/review/:reviewId')
+  .delete(secureRoute, deleteReview) // Tested
 
 router.route('/request')
-  .post(secureRoute, createRequest)
+  .post(secureRoute, createRequest) // Tested
 
 router.route('/request/:id')
-  .get(secureRoute, getSingleRequest)
-  .put(secureRoute, editRequest)
-  .delete(secureRoute, deleteRequest)
+  .get(secureRoute, getSingleRequest) // Tested
+  .put(secureRoute, editRequest) // Tested
+  .delete(secureRoute, deleteRequest) // Tested
 
-router.route('/petDate')
-  .post(secureRoute, createPetDate)
+router.route('/petdate')
+  .post(secureRoute, createPetDate) // Tested
 
-router.route('/petDate/:id')
-.get(secureRoute, getSinglePetDate)
-.put(secureRoute, editPetDate)
-.delete(secureRoute, deletePetDate)
+router.route('/petdate/:id')
+.get(secureRoute, getSinglePetDate) // Tested
+.put(secureRoute, editPetDate) // Tested
+.delete(secureRoute, deletePetDate) // Tested
 
 
 

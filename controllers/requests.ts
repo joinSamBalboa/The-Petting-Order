@@ -3,7 +3,7 @@ import Request from '../models/request'
 // POST /request
 export const createRequest = async (req: any, res: any) => {
   try {
-    const newRequest = await Request.create(req.body)
+    const newRequest = await Request.create({ ...req.body,owner: req.currentUser._id })
     res.status(201).json(newRequest)
   } catch (error) {
     console.log('🆘 Did not create request')
