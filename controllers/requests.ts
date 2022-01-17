@@ -1,5 +1,12 @@
 import Request from '../models/request'
 
+// GET /requests
+export const getAllRequests = async (_req: any, res: any) => {
+  const requests = await Request.find()
+  console.log(requests)
+  return res.status(200).json(requests)
+}
+
 // POST /request
 export const createRequest = async (req: any, res: any) => {
   try {

@@ -9,14 +9,14 @@ import PetDate from '../models/petDate'
 
 // Data
 import userData from './data/users'
-import petData from './data/petDates'
+import petData from './data/pets'
 import requestData from './data/requests'
 import petDateData from './data/petDates'
 
 // Seed Database
 const seedDatabase = async () => {
   try {
-    await mongoose.connect(process.env.dbURI)
+    await mongoose.connect(process.env.dbURI!)
     console.log('Database connected')
 
     await mongoose.connection.db.dropDatabase()
@@ -37,6 +37,9 @@ const seedDatabase = async () => {
     // Create petDates
     const petDates = await PetDate.create(petDateData)
     console.log(`Database seeded with ${petDates.length} pet dates`)
+
+    await mongoose.connection.close()
+    console.log('Bye')
 
   } catch (error) {
     console.log('Something went wrong')
